@@ -71,7 +71,6 @@ ALLOWED_HOSTS = [
     '[::1]',
     '8000-hammad25-drfapi2-fk04a312d4z.ws-eu111.gitpod.io',
     '.gitpod.io',
-    '8000-hammad25-drfapi2-fk04a312d4z.ws-eu111.gitpod.io',
 
 ]
 
