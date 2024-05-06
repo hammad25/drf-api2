@@ -26,7 +26,6 @@ environ.Env.read_env()
 
 # Now access your environment variable
 CLOUDINARY_URL = env('CLOUDINARY_URL')
-print("CLOUDINARY_URL:", CLOUDINARY_URL)
 
 
 
@@ -91,6 +90,7 @@ INSTALLED_APPS = [
 
     'profiles',
     'posts',
+    'comments',
 ]
 
 MIDDLEWARE = [
