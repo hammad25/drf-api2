@@ -12,13 +12,43 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
-
 if os.path.exists('env.py'):
     import env
 
-CLOUDINARY_STORAGE = {
-    'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
-}
+import re
+
+import environ
+
+# Set up environment variables
+env = environ.Env()
+# Assuming your .env file is at the same level as manage.py
+environ.Env.read_env()
+
+# Now access your environment variable
+CLOUDINARY_URL = env('CLOUDINARY_URL')
+print("CLOUDINARY_URL:", CLOUDINARY_URL)
+
+
+
+# Example of loading the environment variable
+# os.environ['CLOUDINARY_URL'] = 'cloudinary://271367374156864:sCF4a2qjC4XGewrp7JFJekYhN-8@dppkcahdz'
+
+cloudinary_url = os.getenv('CLOUDINARY_URL')
+if cloudinary_url:
+    regex = re.compile(r'^cloudinary://(?P<api_key>[^:]+):(?P<api_secret>[^@]+)@(?P<cloud_name>[^/]+)$')
+    match = regex.match(cloudinary_url)
+    if match:
+        CLOUDINARY_STORAGE = {
+            'CLOUD_NAME': match.group('cloud_name'),
+            'API_KEY': match.group('api_key'),
+            'API_SECRET': match.group('api_secret')
+        }
+    else:
+        raise ValueError("Invalid CLOUDINARY_URL")
+else:
+    raise ValueError("CLOUDINARY_URL not set")
+
+
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
